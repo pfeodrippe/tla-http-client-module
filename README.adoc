@@ -12,3 +12,13 @@ Based on https://github.com/dakrone/clj-http (`http/request` function).
 You can already use it from tladeps (https://github.com/pfeodrippe/tladeps), e.g.
 `tladeps --tladeps-dep http-client tlc2.TLC YourModule.tla`, with the `http-client` alias,
 the module will be downloaded and added to the JVM classpath automatically.
+
+```tla
+(* Make a request to httpbin *)
+HttpRequest([url |-> "https://httpbin.org/get",
+             method |-> "get",
+             as |-> "json"])                       
+             
+(* => *)
+[status |-> 200, length |-> 302, body |-> [args |-> [tla-edn.record__empty? |-> TRUE], headers |-> [Accept-Encoding |-> "gzip, deflate", Host |-> "httpbin.org", User-Agent |-> "Apache-HttpClient/4.5.13 (Java/1.8.0_275)", X-Amzn-Trace-Id |-> "Root=1-612ee440-2720f78260e3587a70656b56"], origin |-> "191.9.48.89", url |-> "https://httpbin.org/get"], headers |-> [Date |-> "Wed, 01 Sep 2021 02:24:00 GMT", Content-Type |-> "application/json", Content-Length |-> "302", Connection |-> "close", Server |-> "gunicorn/19.9.0", Access-Control-Allow-Origin |-> "*", Access-Control-Allow-Credentials |-> "true"]]
+``` 
