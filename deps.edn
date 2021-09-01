@@ -1,0 +1,13 @@
+{:aliases
+ {:default-options {:jvm-opts ["-DOlha=4"]}
+
+  :depstar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.193"}}
+            :ns-default hf.depstar
+            :exec-args {}}}
+
+ :deps
+ {pfeodrippe/tla-edn {:mvn/version "0.7.0-SNAPSHOT"}
+  clj-http/clj-http {:mvn/version "3.12.3"}
+  cheshire/cheshire {:mvn/version "5.10.1"}}
+
+ :paths ["src" "resources" "classes"]}

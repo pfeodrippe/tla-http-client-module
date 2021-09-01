@@ -1,0 +1,9 @@
+image:https://img.shields.io/clojars/v/io.github.pfeodrippe/tla-http-client-module.svg[link="http://clojars.org/io.github.pfeodrippe/tla-http-client-module",title="Clojars Project"]
+
+= TLA Http Client Module
+
+A TLA+ module to interact with Http requests.
+
+See `HttpClient.tla` file.
+
+Based on https://github.com/dakrone/clj-http (`http/request` function).
