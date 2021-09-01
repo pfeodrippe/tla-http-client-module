@@ -2,7 +2,7 @@ image:https://img.shields.io/clojars/v/io.github.pfeodrippe/tla-http-client-modu
 
 = TLA Http Client Module
 
-A TLA+ module to interact with Http requests.
+A TLA+ module to do with Http requests, pass a structure, returns a structure.
 
 See `HttpClient.tla` file.
 
