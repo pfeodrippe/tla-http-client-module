@@ -7,3 +7,7 @@ A TLA+ module to interact with Http requests.
 See `HttpClient.tla` file.
 
 Based on https://github.com/dakrone/clj-http (`http/request` function).
+
+You can already use it from tladeps (https://github.com/pfeodrippe/tladeps), e.g.
+`tladeps --tladeps-dep http-client tlc2.TLC YourModule.tla`, with the `http-client` alias,
+the module will be downloaded and added to the JVM classpath automatically.
