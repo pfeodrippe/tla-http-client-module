@@ -1,27 +1,34 @@
 {:tasks
- {:requires ([babashka.fs :as fs])
+ {:requires ([babashka.fs :as fs]
+             [babashka.process :as p :refer [process]])
 
   :init
   (do (def args *command-line-args*)
       (def lib "io.github.pfeodrippe/tladeps-http-client-module")
       (defn eval-clj
         [code]
-        (clojure (format "-e \"%s\"" (pr-str code)))))
+        (clojure (format "-e %s" (pr-str (pr-str code))))))
 
   clean
   {:task (do (clojure "-T:build org.corfield.build/clean")
              (fs/delete-tree "classes")
              (fs/create-dirs "classes")
-             (eval-clj '(do (require (symbol :tla-http-client-module.core))
-                            (require (symbol :tla-edn.spec))
-                            (doseq [ns* (map ns-name (set (vals (deref tla-edn.spec/classes-to-be-loaded))))]
-                              (tla-edn.spec/compile-operators ns*)))))}
+             (fs/create-dirs "classes/tladeps/exports"))}
 
   build
   {:depends [clean]
-   :task (clojure (format "-T:build org.corfield.build/jar :lib %s :version '\"%s\"'"
-                          lib
-                          (first args)))}
+   :task (do (eval-clj '(do (require (symbol :tla-http-client-module.core))
+                            (require (symbol :tla-edn.spec))
+                            (let [to-be-loaded (vals (deref tla-edn.spec/classes-to-be-loaded))]
+                              (let [path (str (gensym) "_" (rand-int 1000000) ".edn")]
+                                (spit (str "classes/tladeps/exports/" path)
+                                      (mapv str to-be-loaded)))
+                              (doseq [ns* (map ns-name (set to-be-loaded))]
+                                (tla-edn.spec/compile-operators ns*)))))
+
+             (clojure (format "-T:build org.corfield.build/jar :lib %s :version '\"%s\"' :src-dirs '[\"src\" \"classes\"  \"resources\"]'"
+                              lib
+                              (first args))))}
 
   deploy
   {:depends [build]

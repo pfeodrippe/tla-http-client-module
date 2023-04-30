@@ -4,7 +4,6 @@
   <packaging>jar</packaging>
   <groupId>io.github.pfeodrippe</groupId>
   <artifactId>tladeps-http-client-module</artifactId>
-  <url>https://raw.githubusercontent.com/pfeodrippe/tla-http-client-module/master/tladeps.edn</url>
   <version>0.3.0</version>
   <name>tla-http-client-module</name>
   <dependencies>
