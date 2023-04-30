@@ -1,0 +1,30 @@
+{:tasks
+ {:requires ([babashka.fs :as fs])
+
+  :init
+  (do (def args *command-line-args*)
+      (def lib "io.github.pfeodrippe/tladeps-http-client-module")
+      (defn eval-clj
+        [code]
+        (clojure (format "-e \"%s\"" (pr-str code)))))
+
+  clean
+  {:task (do (clojure "-T:build org.corfield.build/clean")
+             (fs/delete-tree "classes")
+             (fs/create-dirs "classes")
+             (eval-clj '(do (require (symbol :tla-http-client-module.core))
+                            (require (symbol :tla-edn.spec))
+                            (doseq [ns* (map ns-name (set (vals (deref tla-edn.spec/classes-to-be-loaded))))]
+                              (tla-edn.spec/compile-operators ns*)))))}
+
+  build
+  {:depends [clean]
+   :task (clojure (format "-T:build org.corfield.build/jar :lib %s :version '\"%s\"'"
+                          lib
+                          (first args)))}
+
+  deploy
+  {:depends [build]
+   :task (clojure (format "-T:build org.corfield.build/deploy :lib %s :version '\"%s\"'"
+                          lib
+                          (first args)))}}}

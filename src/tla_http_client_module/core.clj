@@ -24,16 +24,6 @@
       edn/read-string
       tla-edn/to-tla-value))
 
-(gen-class
- :name TlaHttpClientModule.Overrides
- :implements [tlc2.overrides.ITLCOverrides]
- :prefix "impl-"
- :main false)
-
-(defn impl-get
-  [_this]
-  (into-array Class (map resolve (or (keys @spec/classes-to-be-loaded) []))))
-
 (comment
 
   ;; Run tests.
@@ -42,3 +32,8 @@
     (str (System/getProperty "user.dir") "/test/HttpClientTests.tla"))
 
   ())
+
+;; TODO:
+;; - [ ] Check without the new overrides class
+;; - [ ] Do we need tladeps.edn?
+;; - [ ] Multiple overrides
